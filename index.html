@@ -3734,11 +3734,12 @@ const DATA = {
   // ---------- tabs ----------
   const TABS = [
     { id: "overview", label: "總覽" },
-    { id: "step5", label: "方法3：用電大戶名單" },
-    { id: "criteria", label: "方法3：篩選條件與機制" },
-    { id: "explorer", label: "方法3：數據瀏覽" },
-    { id: "charts", label: "方法3：分析圖表" },
-    { id: "files", label: "方法3：檔案清單" },
+    { id: "criteria", label: "用電大戶篩選條件與機制" },
+    { id: "step5", label: "用電大戶名單" },
+    { id: "explorer", label: "數據瀏覽" },
+    { id: "charts", label: "分析圖表" },
+    { id: "files", label: "檔案清單" },
+    { id: "method3", label: "報告書未來用電與綠電揭露資訊" },
   ];
   const tabsEl = document.getElementById("tabs");
   const panesEl = document.getElementById("panes");
@@ -3764,77 +3765,83 @@ const DATA = {
 
     sec.innerHTML = `
       <h2 class="pane-title">任務總覽</h2>
-      <p class="pane-desc"><b>任務目標：</b>推估「2035年台灣總用電量」與對應的「綠電/低碳電力用電量」，各用<b>三種獨立方法</b>分別推算，總共交出<b>3組、6個數字</b>——三個方法互相印證，數字若接近代表推估穩健，差異大則是需要向所長說明的不確定性來源，不是要選一個「最準」的。</p>
-      <p class="pane-desc" style="margin-top:-4px"><b>口徑統一：</b>全篇一律採用「電力<b>消費</b>量」(用戶端實際用多少)，不是「發電量」(電廠端發多少，含輸配電損失)——兩者2025年官方數字分別是2,830.1億度(消費)與2,897.1億度(發電)，差約67億度，來源不同、口徑不同，不能互相替換。</p>
 
       <div class="kpi-grid">
         <div class="kpi"><div class="val">3</div><div class="lbl">推估方法</div><div class="note">總體趨勢／部門驅動／用電大戶由下而上</div></div>
-        <div class="kpi"><div class="val">1<span style="font-size:14px;color:var(--text-muted)"> / 3</span></div><div class="lbl">方法完整度(總量+RE%)</div><div class="note">方法1已完整；方法3用電量已完成(≈3,718.7億度)、RE%進行中；方法2擱置</div></div>
+        <div class="kpi"><div class="val">—</div><div class="lbl">方法3推算狀態</div><div class="note">舊用電量推算已撤下，待依新算法重新計算</div></div>
       </div>
 
       <div class="card" style="margin-top:16px">
         <h3>三個推估方法</h3>
-        <p style="font-size:13px;color:var(--text-secondary);margin:0 0 14px">從「粗到細」三個獨立角度框出合理區間——三個方法用不同資料來源、不同計算邏輯，數字若接近代表推估穩健，差異大則是需要跟所長說明的不確定性來源。每個方法點「看完整步驟、公式與結果」展開詳細計算過程。</p>
 
         <div class="card" style="margin:0 0 12px;background:var(--surface-2);border-left:3px solid var(--text-muted)">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
             <h3 style="color:var(--text-primary);text-transform:none;font-size:14px;margin:0">方法1：總體趨勢外推法</h3>
-            <span class="pill na">尚未開始</span>
+            <span class="pill progress">需求端框架已新增</span>
           </div>
-          <p style="font-size:12.5px;line-height:1.7;color:var(--text-secondary);margin:8px 0">由上而下，用官方歷史統計與既有預測直接外推全國總量，是最快、最具官方權威性的基準情境。綠電占比用三個獨立算法互相對照，不是選一個「最準」的。</p>
+          <p style="font-size:12.5px;line-height:1.7;color:var(--text-secondary);margin:8px 0">由上而下，以官方歷史統計與既有預測外推全國總量；綠電部分另新增「公司專屬用電量 × 綠電承諾」的需求端計算框架，與既有全國政策／供給端算法並列。</p>
           <details class="rowdetail">
             <summary>看完整步驟、公式與結果</summary>
             <div class="body" style="max-width:none;white-space:normal">
 
-              <p class="sec-h">一、2035年總發電量</p>
+              <p class="sec-h">一、2035年總用電量</p>
               <table class="crit-table">
                 <tr><th>版本</th><th>數字</th><th>意義</th></tr>
-                <tr><td id="m1-total-trend">趨勢推算</td><td><b>3,621億度</b></td><td>經濟部「114年度全國電力資源供需報告」圖3-2官方逐年預測值(非自算複利)，2025年實際基期2,830.1億度，2026–2035年均成長2.5%(什麼都不做會長到的量)。<a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?menu_id=27046&file_id=17091" target="_blank">來源</a></td></tr>
-                <tr><td id="m1-total-ndc">NDC政策上限</td><td><b>&lt;3,500億度</b></td><td>政府靠節能/產業轉型主動壓低的目標，跟趨勢推算差約132億度缺口。<a class="link" href="https://ncsd.ndc.gov.tw/Fore/nsdn/about0/NewGoals" target="_blank">來源</a></td></tr>
+                <tr><td id="m1-total-trend">官方趨勢推算</td><td><b>3,621億度</b></td><td>經濟部「114年度全國電力資源供需報告」圖3-2官方逐年預測值（非自算複利）；以2025年實際基期2,830.1億度為基礎，2026–2035年均成長2.5%。<a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?menu_id=27046&file_id=17091" target="_blank">來源</a></td></tr>
               </table>
 
-              <p class="sec-h">二、結果彙整表</p>
-              <p style="margin:4px 0;font-size:12px">2035年再生能源(綠電)占比——3個獨立算法、4個數字，對兩個總量都各算一次(點數字可跳到下方詳細算式)：</p>
+              <p class="sec-h">二、2035年綠電承諾加權占比（待完成）</p>
+              <p style="margin:4px 0;font-size:12px">改採下方 3a 的加權占比公式，以公司2025年台灣用電量作為權重，搭配其未來綠電承諾。尚未整理完成前，不公布占比或換算綠電量。</p>
               <table class="crit-table">
-                <tr><th>算法</th><th>占比</th><th>×3,621億度</th><th>×&lt;3,500億度</th></tr>
-                <tr><td><a class="link" href="#m1a">1a 官方直接目標</a></td><td><a class="link" href="#m1a"><b>36%</b></a></td><td>≈1,304億度</td><td>≈<b>1,260億度</b>(官方原生配套)</td></tr>
-                <tr><td><a class="link" href="#m1b">1b-A 內插·長期步調</a></td><td><a class="link" href="#m1b"><b>38.8%</b></a></td><td>≈<b>1,405億度</b>(原生配套)</td><td>≈1,358億度</td></tr>
-                <tr><td><a class="link" href="#m1b">1b-B 內插·近期步調</a></td><td><a class="link" href="#m1b"><b>46.7%</b></a></td><td>≈<b>1,691億度</b>(原生配套)</td><td>≈1,635億度</td></tr>
-                <tr><td><a class="link" href="#m1c">1c 裝置容量加總</a></td><td><a class="link" href="#m1c">36.4%~37.7%</a></td><td>≈<b>1,319.6億度</b>(逐類別加總，非反推)</td><td>同左</td></tr>
+                <tr><th>計算方式</th><th>2035綠電占比</th><th>2035綠電量</th><th>狀態</th></tr>
+                <tr><td>2025用電量加權的公司綠電承諾（3a）</td><td>—</td><td>—</td><td>待整理有2025台灣用電量與未來綠電承諾資料的公司</td></tr>
               </table>
-              <p style="margin:8px 0;font-size:12px">為什麼1a只給NDC上限一個配對數字當主要值：因為36%這個數字跟&lt;3,500億度出自<b>同一份NDC政策簡報、同一套情境</b>，兩者搭配才是官方原意；×3,621億度只是順便換算給的對照值，不是官方講的組合。<b>1c跟1a(1,319.6億度/36.4%~37.7% vs 1,304億度/36%)現在最接近</b>——地熱目標下修後，由下而上逐類別加總的結果反而跟官方直接講的36%目標最貼近，是這次推估裡最強的互相印證訊號。</p>
 
-              <p class="sec-h">三、2035年再生能源(綠電)占比推算——三個算法的詳細算式</p>
+              <p class="sec-h">三、公司綠電承諾加權占比——以2025台灣用電量加權</p>
+              <p style="margin:4px 0;font-size:12.5px">這是需求端的綠電承諾比較：以各公司<b>2025年台灣用電量</b>作為權重，計算未來綠電承諾的整體占比。它不需要先推估公司2035年總用電量；公司2035用電量的推算，另由方法3處理。</p>
 
-              <p id="m1a" class="sub-h">1a. 官方NDC直接目標</p>
-              <p style="margin:4px 0;font-size:12.5px">環境部114/1/23公布：2035年再生能源占比<b>由2030年30%增至36%</b>(同時燃煤20%→9%、電力排放係數0.319→0.241 kgCO2e/度)。<a class="link" href="https://ncsd.ndc.gov.tw/Fore/nsdn/about0/NewGoals" target="_blank">來源：行政院國家永續發展委員會</a></p>
-
-              <p id="m1b" class="sub-h">1b. 占比內插法</p>
+              <p class="sub-h">核心公式與適用條件</p>
               <table class="crit-table">
-                <tr><th>年度</th><th>占比</th><th>來源</th></tr>
-                <tr><td>2025</td><td><b>13.3%</b></td><td><a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/Content.aspx?menu_id=14437" target="_blank">能源署「發電概況」統計</a></td></tr>
-                <tr><td>2030</td><td><b>30%</b></td><td><a class="link" href="https://www.moea.gov.tw/MNS/populace/news/News.aspx?kind=1&menu_id=40&news_id=119230" target="_blank">經濟部新聞稿</a></td></tr>
-                <tr><td>2050</td><td>60–70%(中位65%)</td><td>2050淨零路徑</td></tr>
+                <tr><th>步驟</th><th>公式</th><th>必須符合的條件</th></tr>
+                <tr><td>取得公司用電權重</td><td><code class="path">Eᵢ,2025</code></td><td>公司2025年台灣用電量；只使用可對應台灣範圍的數字。</td></tr>
+                <tr><td>取得未來綠電承諾</td><td><code class="path">rᵢ,2035</code></td><td>必須是再生能源／綠電占比；2030或2050目標如要換算為2035值，須明列換算假設。</td></tr>
+                <tr><td>按用電量加權</td><td><code class="path">R₍2035₎ = Σ(Eᵢ,2025 × rᵢ,2035) ÷ ΣEᵢ,2025</code></td><td>只納入同時有2025台灣用電量與未來綠電承諾資料的公司；缺資料不當作0%。</td></tr>
               </table>
-              <p style="margin:4px 0;font-size:12px">2025→2030步調(+3.34%/年)比2030→2050(+1.75%/年)快，兩種延續假設分別給：<code class="path">A：30%+1.75%×5=38.8%</code> ／ <code class="path">B：30%+3.34%×5=46.7%</code></p>
+              <p style="margin:6px 0;font-size:12px"><b>白話例子：</b>A公司2025年台灣用電量100度、未來綠電承諾50%；B公司用電量20度、承諾20%。加權後是<b>(100×50%＋20×20%) ÷ (100＋20) = 45%</b>，不是把50%與20%直接平均成35%。這樣用電量大的公司會有較大的影響。</p>
 
-              <p id="m1c" class="sub-h">1c. 裝置容量加總法</p>
-              <p style="margin:4px 0;font-size:12.5px">逐類別查裝置容量(太陽光電/離岸風電/地熱有2035官方值，其餘用國發會2032年值)，乘容量因數(優先用躉購費率審定會官方年售電量參數反推)換算發電度數：</p>
+              <p class="sub-h">3a. 公司2035年總用電量推算</p>
+              <p style="margin:4px 0;font-size:12.5px">公司2035年總用電量屬於<b>方法3</b>的工作，資料基礎是2023→2025年台灣專屬用電量與公司公開揭露的擴產證據。此項推算不代入目前方法1的綠電承諾加權占比；完成後可作為另一項綠電需求量情境。</p>
               <table class="crit-table">
-                <tr><th>類別</th><th>容量</th><th>容量因數</th><th>發電度數</th></tr>
-                <tr><td>太陽光電</td><td>35.02GW(2035)</td><td>14.3%(1,250度/瓩)</td><td>437.8億度</td></tr>
-                <tr><td>離岸風電</td><td>18.409GW(2035)</td><td>40–45%(國際文獻，官方已無此參數)</td><td>685.3億度</td></tr>
-                <tr><td>地熱</td><td>0.45GW(2035)</td><td>76.5%(6,700度/瓩)</td><td>30.2億度</td></tr>
-                <tr><td>陸域風力</td><td>0.979GW(2032)</td><td>28.5%(2,500度/瓩)</td><td>24.5億度</td></tr>
-                <tr><td>生質能及廢棄物</td><td>0.840GW(2032)</td><td>約74%(加權估計)</td><td>54.6億度</td></tr>
-                <tr><td>水力</td><td>2.180GW(2032)</td><td>45.7%(4,000度/瓩)</td><td>87.2億度</td></tr>
-                <tr><td colspan="3" style="text-align:right"><b>合計</b></td><td><b>約1,319.6億度</b></td></tr>
+                <tr><th>階段</th><th>公式</th><th>判讀</th></tr>
+                <tr><td>證據涵蓋期</td><td><code class="path">Eᵢ,完工年 = Eᵢ,2025 × 產能比例</code></td><td>產能比例只用公司官方揭露；海外擴產不放大台灣用電。</td></tr>
+                <tr><td>完工年之後</td><td><code class="path">Eᵢ,2035 = Eᵢ,完工年 × (1 + 公司歷史CAGR)^(2035−完工年)</code></td><td>接續公司自身趨勢，不接回全國均速。</td></tr>
               </table>
-              <p style="margin:4px 0;font-size:11.5px;color:var(--text-muted)">
-                容量來源：<a class="link" href="https://service.cca.gov.tw/File/Get/cca/zh-tw/HS70P6BEhR4Lj8y" target="_blank">太陽光電</a>、<a class="link" href="https://service.cca.gov.tw/File/Get/cca/zh-tw/gXMjtBb8NXaQvs4" target="_blank">離岸風電</a>旗艦行動計畫核定本；地熱改採<a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?menu_id=27046&file_id=17091" target="_blank">114年度全國電力資源供需報告</a>表3-2最新值(0.45GW)，取代旗艦計畫核定本原訂的1.7GW——經濟部長115/4/16於立法院答詢時將2030年地熱目標由1.2GW下修回200MW，同一天國發會書面報告未及更新仍寫1.2GW，兩機關數字一度打架，供需報告(115/6/18發布，時間最新)採用經濟部下修後版本，<a class="link" href="https://e-info.org.tw/node/243318" target="_blank">詳見報導</a>；陸域風力/生質能及廢棄物/水力2032數字引自<a class="link" href="https://ws.ndc.gov.tw/001/administrator/10/relfile/6889/40079/76b7a6d2-8956-4720-8f67-595d7aaecfc7.pdf" target="_blank">國發會115/4/16書面報告</a>。<br>
-                容量因數來源：躉購費率審定會決議——<a class="link" href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16931" target="_blank">太陽光電分組</a>、<a class="link" href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16932" target="_blank">地熱/生質能/小水力分組</a>、<a class="link" href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16933" target="_blank">風力及海洋能分組</a>第3次會議紀錄。離岸風電<a class="link" href="https://www.moeaea.gov.tw/ECW/main/content/wHandMenuFile.ashx?file_id=16913" target="_blank">115年度已刪除躉購分類</a>(走CPPA市場機制)，沿用國際文獻估計。
-              </p>
-              <p class="footnote" style="margin:8px 0 0">限制：1c「生質能及廢棄物」74%為加權估計(官方分別給沼氣66.2%/固態生質燃料63.9%/廢棄物82.2%，占比未知)；地熱目標本身在2026年反覆調整(200MW↔1.2GW↔200MW)，反映政策仍不穩定，2035年0.45GW也可能再變動；未納入海洋能(國發會表、2050淨零路徑、旗艦計畫清單皆無其單獨裝置容量目標，僅與地熱/生質能合併列「前瞻能源」或註記仍處驗證階段，非遺漏)；1b線性內插非必然成立(政策常為S曲線)。</p>
+              <p style="margin:6px 0;font-size:12px">範例（聯電，示範方法而非已定案的50家總計）：2025年31.17億度；P6廠2026年完工，月產能10萬片→12.75萬片，比例1.275；2023→2025年公司CAGR約4.3%。<br><code class="path">E2026 = 31.17 × 1.275 = 39.74億度</code><br><code class="path">E2035 = 39.74 × (1.043)^9 ≈ 58.06億度</code></p>
+
+              <p class="sub-h">3b. 不確定性以低／中／高情境呈現</p>
+              <table class="crit-table">
+                <tr><th>情境</th><th>2035公司總用電公式</th><th>用途與限制</th></tr>
+                <tr><td>低</td><td><code class="path">Eᵢ,2025 × (1+CAGRᵢ)^10</code></td><td>不採計近期擴產，作為保守下界。</td></tr>
+                <tr><td>中</td><td><code class="path">(Eᵢ,2025 × 產能比例) × (1+CAGRᵢ)^(2035−完工年)</code></td><td>採已揭露擴產，完工後回到公司歷史趨勢；為本段主方法。</td></tr>
+                <tr><td>高</td><td>完工後先延續有證據支持的高速成長N年，再接公司CAGR。</td><td>N年必須有第二階段擴產、資本支出週期等公司證據；沒有證據時不可虛設高情境。</td></tr>
+              </table>
+
+              <p class="sub-h">3c. 綠電承諾的收錄規則</p>
+              <ul style="margin:4px 0 8px;padding-left:20px;font-size:12.5px;color:var(--text-secondary);line-height:1.7">
+                <li><b>直接採用：</b>公司明確揭露2035綠電／再生能源占比，且邊界可與公司用電對齊。</li>
+                <li><b>保留資料點：</b>只有2030目標時，不自動變成2035值；若日後採內插或延伸，必須標為模型假設。</li>
+                <li><b>不可換算：</b>只有綠電採購度數、沒有同邊界總用電量時，保留為電量下限或交叉驗證，不轉占比。</li>
+                <li><b>缺值處理：</b>未揭露2035綠電承諾者留白，不以0%代替。</li>
+              </ul>
+              <p class="sub-h">3d. 為什麼可以這樣推？文獻提供的角色與界線</p>
+              <p style="margin:4px 0;font-size:12.5px">這兩篇文獻不提供台灣公司2035年用電的答案；它們分別用來檢查「公司擴產」與「單位產品用電」能否分開處理，以及什麼情況下可暫用產能比例作近似。</p>
+              <table class="crit-table">
+                <tr><th>文獻重點</th><th>參考用途</th><th>限制</th></tr>
+                <tr><td><b>EIA 工業需求模型</b><br>工業能源需求同時受活動量（如出貨、產能）、能源強度（每單位活動的耗能）與價格影響；能源強度會隨設備效率改變。</td><td><b>先拆開兩件事：</b><br>公司擴產反映「活動量」變化；歷史用電趨勢與節能措施則協助判斷「每單位產品用電」是否改變。因此，兩者不能混成一個固定倍率。</td><td>這是美國的總體工業模型，不提供任何台灣公司的2035用電量或成長率。其效率改善假設，也未必適用於先進製程或新廠爬坡。</td></tr>
+                <tr><td><b>imec IEDM 2023</b><br>以每片晶圓、每平方公分或每顆晶片為單位比較不同技術節點；模型假設同一節點內的廠務效率與產出條件一致。</td><td><b>限定「同節點」才可近似：</b><br>若公司官方資料顯示是在同一製程節點擴產，可暫以產能增加比例作為用電增加的簡化估計，再接回公司自己的歷史趨勢。</td><td>它不是公司實際用電的證明。良率、稼動率、無塵室基載與跨節點升級都會改變結果；遇到這些情況，不能直接按產能比例推算。</td></tr>
+              </table>
+              <p class="footnote" style="margin:8px 0 0"><b>因此，本研究的順序是：</b>先用公司官方資料確認擴產是否屬同節點，再以公司台灣用電歷史趨勢推估2035總用電，最後才乘上同邊界的綠電承諾。真正代入計算的數字，仍只能來自公司官方揭露。<a class="link" href="https://www.eia.gov/analysis/handbook/pdf/NEMS_Industrial_Demand.pdf" target="_blank">EIA NEMS Industrial Demand Module</a>　<a class="link" href="https://iedm23.mapyourshow.com/mys_shared/iedm23/handouts/28-1_Wed_13242.pdf" target="_blank">imec IEDM 2023</a></p>
+
             </div>
           </details>
         </div>
@@ -3887,10 +3894,10 @@ const DATA = {
 
         <div class="card" style="margin:0;background:var(--surface-2);border-left:3px solid var(--good)">
           <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;flex-wrap:wrap">
-            <h3 style="color:var(--text-primary);text-transform:none;font-size:14px;margin:0">方法3：用電大戶由下而上法(本儀表板主要內容)</h3>
-            <span class="pill ok">2035年用電量已完成</span>
+            <h3 style="color:var(--text-primary);text-transform:none;font-size:14px;margin:0">方法3：用電大戶由下而上法（本儀表板主要內容）</h3>
+            <span class="pill na">待新算法完成</span>
           </div>
-          <p style="font-size:12.5px;line-height:1.7;color:var(--text-secondary);margin:8px 0">從已逐家查證的50家用電大戶出發，最貼近實際、資料最扎實，逐家推算2035年用電量後校準放大到全國。<b>綠電/RE%這一半尚未完成</b>，目前只有「用電量」這一個數字。</p>
+          <p style="font-size:12.5px;line-height:1.7;color:var(--text-secondary);margin:8px 0">以公司2023–2025年台灣用電量、公開揭露的擴產證據與報告書未來用電線索，建立公司2035年用電量的情境推算。舊版結果已撤下，待新算法逐家完成後再公布。</p>
           <details class="rowdetail">
             <summary>看完整步驟、公式與結果</summary>
             <div class="body" style="max-width:none;white-space:normal">
@@ -3984,12 +3991,104 @@ const DATA = {
           <li class="done"><div class="stxt"><b>1. 訂用電大戶篩選條件</b><span>規模門檻／揭露品質／產業配額，詳見「方法3：篩選條件與機制」分頁</span></div></li>
           <li class="done"><div class="stxt"><b>2. 批次篩選候選名單</b><span>從971家彙總掃描，篩至142家候選池</span></div></li>
           <li class="done"><div class="stxt"><b>3. 逐家查證，拍板正式69家名單</b><span>50家有台灣專屬數字可用於計算、19家排除並附原因，詳見「方法3：用電大戶名單」分頁</span></div></li>
-          <li class="done"><div class="stxt"><b>4a. 推算50家2035年用電量</b><span>五層決策樹(①現有vs新增比例/①b具名機構或高階主管估計/②補基期/③明確持平陳述/④全國均速)，詳見「方法3」總覽卡片展開內容</span></div></li>
-          <li class="done"><div class="stxt"><b>5a. 校準放大到全國總量(用電量)</b><span>50家小計803.35億度＋其餘經濟體2,915.3億度≈3,718.7億度，已完成</span></div></li>
-          <li><div class="stxt"><b>4b. 推算50家2035年RE%</b><span>決策樹：①明確2035目標②2030目標外推③2050目標內插④無揭露用代理，尚未進行</span></div></li>
-          <li><div class="stxt"><b>5b. 校準放大到全國總量(綠電量)</b><span>50家綠電小計＋其餘經濟體RE%假設，待4b完成後進行</span></div></li>
+          <li><div class="stxt"><b>4. 建立50家2035年用電量新算法</b><span>以公司台灣歷史用電量與公開揭露的未來用電線索，逐家重新設定推算規則</span></div></li>
+          <li><div class="stxt"><b>5. 彙整2035年公司用電量</b><span>待新算法逐家完成後，才公布公司小計與全國對照結果</span></div></li>
         </ul>
       </div>
+    `;
+    const legacyMethod3Details = [...sec.querySelectorAll("details")].find(d => d.textContent.includes("一、2035年台灣用電量(50家由下而上校準結果)"));
+    const method1Details = [...sec.querySelectorAll("details")].find(d => d.textContent.includes("三、公司綠電承諾加權占比"));
+    if (legacyMethod3Details) {
+      const legacyBody = legacyMethod3Details.querySelector(".body");
+      const method1Body = method1Details && method1Details.querySelector(".body");
+      const method3Start = method1Body && [...method1Body.querySelectorAll(".sub-h")].find(h => h.textContent.startsWith("3a. 公司2035年總用電量推算"));
+      const method3Nodes = [];
+      for (let node = method3Start; node; node = node.nextSibling) method3Nodes.push(node);
+      legacyBody.innerHTML = `
+        <p class="sec-h">方法3：用電大戶由下而上法（待新算法完成）</p>
+        <p style="margin:4px 0;font-size:12.5px">舊版的50家2035用電量、校準全國總量與逐家推算結果已撤下。新版將以各公司2023–2025年台灣用電量、報告書揭露的未來用電線索及可對應的活動資料重新推算。</p>
+        <table class="crit-table">
+          <tr><th>後續產出</th><th>目前狀態</th></tr>
+          <tr><td>50家公司2035台灣用電量</td><td>待依新算法逐家計算</td></tr>
+          <tr><td>50家公司小計與全國對照</td><td>待公司推算完成後再公布</td></tr>
+        </table>`;
+      method3Nodes.forEach(node => legacyBody.appendChild(node));
+    }
+    panesEl.appendChild(sec);
+  }
+
+  // ---------- Pane: Method 3 evidence ----------
+  function renderMethod3() {
+    const sec = document.createElement("section");
+    sec.className = "pane";
+    sec.id = "pane-method3";
+    const greenCommitments = [
+      ["東和鋼鐵", "2006", "2035 年 RE30", "全集團", "有2035比例；先保留公司個案"], ["京元電子", "2449", "2035 年 50%", "公司，未明示台灣專屬", "有2035比例；需比對台灣邊界"], ["台灣大", "3045", "2035 年 60%", "公司路徑", "有2035比例；需比對台灣邊界"], ["遠傳", "4904", "2035 年 60%", "公司路徑", "有2035比例；需比對台灣邊界"], ["世界先進", "5347", "2035 年 55%", "全球營運據點路徑", "有2035比例；不直接納入台灣加權"], ["中美晶", "5483", "2035 年 RE35", "公司／集團路徑", "有2035比例；不直接納入台灣加權"], ["環球晶圓", "6488", "2035 年 55%", "全球集團路徑", "有2035比例；不直接納入台灣加權"],
+      ["唐榮", "2035", "2030 年至少 8%", "公司自發自用設備", "2030資料點；不自動推2035"], ["聯電", "2303", "2030 年 50%", "聯電集團", "2030資料點；不自動推2035"], ["金寶", "2312", "2028–2034 RE55；2035–2050 RE100", "集團", "期間目標；不指定單一年份"], ["華通", "2313", "2030 年 30%；2025 年 38.8%", "全企業／全球敘述", "2030資料點；不自動推2035"], ["台積電", "2330", "2030 年 RE60；2040 年 RE100", "公司，未明示台灣專屬", "可作情境端點；非2035承諾"], ["華邦電", "2344", "台灣 2030 年 50%；2025 年 8.7%", "明確台灣邊界", "台灣2030資料點；2035仍需假設"], ["金像電", "2368", "2030 年 46.7%", "集團", "2030資料點；不自動推2035"], ["瑞昱", "2379", "2030 年 50%", "全集團", "2030資料點；不自動推2035"], ["正崴", "2392", "2030 年 60%；2025 年 57.38%", "公司／各廠區，未明示台灣專屬", "2030資料點；不自動推2035"], ["南亞科", "2408", "2030 年 25%；2025 年 10%", "公司，未明示台灣專屬", "2030資料點；不自動推2035"], ["友達", "2409", "2030 年導入再生能源 30%", "EPS 2030，未明示台灣專屬", "2030資料點；不自動推2035"], ["中華電", "2412", "2030 年 100%", "僅 IDC 機房", "不代表公司總用電"], ["岱稜", "3303", "2030 年 2.5%", "公司", "2030資料點；不自動推2035"], ["精材", "3374", "2030 年 7%–15%", "範圍目標", "保留區間；不取單一值"], ["群創", "3481", "2030 年 RE20", "大中華區", "非台灣專屬"], ["新唐", "4919", "台灣據點 2030 年 1.5%", "明確台灣邊界", "台灣2030資料點；2035仍需假設"], ["和碩", "4938", "2030 年 50%", "總部與合併子公司，含海外", "非台灣專屬"], ["力成", "6239", "2030 年 15%", "公司目標，未標台灣專屬", "2030資料點；不自動推2035"], ["矽格", "6257", "2030 年 30%", "公司；另有憑證表述", "先確認認列工具後使用"], ["GIS-KY", "6456", "2030 年全集團 100%", "含中國廠與全集團", "非台灣專屬"], ["南茂", "8150", "2026 年 2%；2030 年 20%；2050 年 100%", "全廠區，含昆山子公司", "非台灣專屬"],
+      ["亞泥", "1102", "2030 年發電／轉供 5,000 千度", "電量目標", "缺同邊界總用電量，不換比例"], ["燿華", "2367", "2030 年採購 2,000 萬度", "電量目標", "缺同邊界總用電量，不換比例"], ["超豐", "2441", "2025 年綠電採購與自發自用", "歷史實績", "非未來比例目標"], ["景碩", "3189", "2030 年後採購至少 535 萬度", "非固定年度／比例", "不換比例"], ["台勝科", "3532", "2030 年購買與自設合計 26,000 千度", "電量目標", "缺同邊界總用電量，不換比例"], ["彩晶", "6116", "南京廠 2026 年 65%；2027 年 80%", "單一海外廠", "不代表公司或台灣總用電"], ["頎邦", "6147", "2030 年至少 4,300 萬度", "電量目標", "缺同邊界總用電量，不換比例"],
+      ["東聯", "1710", "未找到量化未來承諾", "—", "暫不納入"], ["中碳", "1723", "未找到量化未來承諾", "—", "暫不納入"], ["中鋼", "2002", "有綠電取得規劃，未見未來比例／電量", "—", "暫不納入"], ["中鴻", "2014", "未找到量化未來承諾", "—", "暫不納入"], ["大成鋼", "2027", "未找到量化未來承諾", "—", "暫不納入"], ["華泰", "2329", "未找到量化未來承諾", "—", "暫不納入"], ["旺宏", "2337", "有提升與淨零方向，未見量化點位", "—", "暫不納入"], ["神基", "3005", "未找到量化未來承諾", "—", "暫不納入"], ["健鼎", "3044", "未找到量化未來承諾", "—", "暫不納入"], ["典範", "3372", "未找到量化未來承諾", "—", "暫不納入"], ["TPK-KY", "3673", "未找到量化未來承諾", "—", "暫不納入"], ["定穎投控", "3715", "未找到量化未來承諾", "—", "暫不納入"], ["榮剛", "5009", "有外購綠電與採購規劃，未見量化未來目標", "—", "暫不納入"], ["力積電", "6770", "有綠電專案與採購／光電規劃，未見量化承諾", "—", "暫不納入"], ["南電", "8046", "有2025外購綠電與後續採購規劃，未見量化未來目標", "—", "暫不納入"],
+    ];
+    const greenCommitmentRows = greenCommitments.map(([company, code, target, boundary, treatment]) => `<tr><td>${esc(company)} <span class="badge-src">${esc(code)}</span></td><td>${esc(target)}</td><td>${esc(boundary)}</td><td>${esc(treatment)}</td></tr>`).join("");
+    sec.innerHTML = `
+      <h2 class="pane-title">報告書未來用電與綠電揭露資訊</h2>
+      <p class="pane-desc">整理公司 2025 年永續報告書中已揭露的未來用電、再生能源與節能資訊；其中公司未來用電線索可供方法3後續推算使用。每筆均標示資料範圍與頁次，避免將全球／集團資料誤讀為台灣公司本體。</p>
+
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h3>公司報告書揭露資訊：閱讀方式</h3>
+        <p style="font-size:13px;line-height:1.8;margin-bottom:0">本區只整理公司已在 2025 年永續報告書中揭露的事實，並保留<b>資料範圍</b>，避免將「全球／集團」誤讀為「台灣公司本體」。若標示「未見未來總用電量」，意思是本次依能源管理、氣候策略、再生能源、節能及擴產章節閱讀後，未找到公司公開的台灣 2030 或 2035 年絕對用電量；不影響其綠電、節能與擴產資訊的價值。</p>
+      </div>
+
+      <div class="card">
+        <h3>最終50家：未來綠電／再生能源承諾總覽</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">50家公司2025年永續報告書的未來綠電資訊已整理完成。這是資料盤點表，不是2035推算結果：有明確2035比例者7家、有2030或其他前期資料點者21家、僅有電量或單一廠資訊者7家、未找到量化未來承諾者15家。</p>
+        <p class="footnote" style="margin:0 0 10px">目前可直接作為台灣資料點的是華邦電與新唐的2030比例；其餘資料先保留原始邊界與年度，不自動外推成2035值，也不把缺資料視為0%。</p>
+        <div class="table-scroll">
+          <table class="data">
+            <thead><tr><th>公司</th><th>報告書揭露的未來承諾／資訊</th><th>資料範圍</th><th>目前處理方式</th></tr></thead>
+            <tbody>${greenCommitmentRows}</tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>台積電：報告書揭露重點（2025）</h3>
+        <p style="font-size:13px;line-height:1.8">報告書揭露了實際能源使用、綠電路徑與節能績效；未見台灣 2030／2035 年<b>絕對總用電量</b>的公司預測。</p>
+        <table class="crit-table">
+          <tr><th style="width:18%">主題</th><th>報告書資訊</th><th style="width:22%">資料範圍／頁次</th></tr>
+          <tr><td><b>2025 能源使用</b></td><td>2025 年全球能源總消耗為 <b>309.9 億度</b>；能源來源以外購電力為主，占 92.8%，天然氣占 7.1%，柴油占 0.1%。</td><td>全球<br>p.101</td></tr>
+          <tr><td><b>台灣綠電現況</b></td><td>台灣廠區及采鈺於 2025 年使用 <b>29.8 億度</b>再生能源電力，占同一範圍總用電量 <b>11.5%</b>。</td><td>台灣廠區＋采鈺<br>p.99</td></tr>
+          <tr><td><b>未來綠電承諾</b></td><td>公司規劃於 <b>2030 年達成 RE60</b>、<b>2040 年達成 RE100</b>。2025 年全球再生能源使用量為 57.8 億度，占全球總用電量 20.1%；已簽約再生能源專案合計 7.3 GW，全部完工後預估每年可供應 158 億度電力。</td><td>公司全球<br>p.95、99</td></tr>
+          <tr><td><b>節能與用電強度</b></td><td>公司將年平均節能目標由 1.2% 提升至 <b>1.5%</b>；2025 年推動 2,141 項節能措施，節省約 <b>9 億度</b>能源。單位產品用電量於 2021–2025 年分別為 25.9、27.7、40.5、37.1、34.7 度／十二吋晶圓當量－光罩數。</td><td>全球能源管理；單位產品指標依報告定義<br>p.101–102</td></tr>
+        </table>
+        <p class="footnote" style="margin-top:10px">來源：台積電《114 年度永續報告書》第 95、99、101–102 頁；PDF 已列於本儀表板檔案清單。</p>
+      </div>
+
+      <div class="card">
+        <h3>聯電：報告書揭露重點（2025）</h3>
+        <p style="font-size:13px;line-height:1.8">報告書明確揭露綠電、節電與單位用電目標；未見 2030／2035 年<b>絕對總用電量</b>的公司預測。以下數字主要是「聯電集團」範圍，並非台灣廠區單獨數字。</p>
+        <table class="crit-table">
+          <tr><th style="width:18%">主題</th><th>報告書資訊</th><th style="width:22%">資料範圍／頁次</th></tr>
+          <tr><td><b>2025 外購電力</b></td><td>2025 年聯電集團外購電力為 <b>3,099,331 MWh</b>，約占集團總能源消耗 70.7%；單位產品外購電力為 <b>10.5 MWh／Wafer-m²</b>。</td><td>聯電集團<br>p.110</td></tr>
+          <tr><td><b>綠電現況與目標</b></td><td>2025 年再生能源使用量超過 <b>10.4 億度</b>，占集團總用電量 <b>25.1%</b>；目標於 <b>2030 年達 50%</b>、<b>2050 年達 100%</b>。</td><td>聯電集團<br>p.109、111</td></tr>
+          <tr><td><b>用電效率與累計節電</b></td><td>以 2015 年為基準，2025 年單位產品用電減量實績為 <b>30.5%</b>，2030 年目標為 30%；截至 2025 年的累計新增節電量為 <b>11.95 億度</b>，2030 年目標為 13.8 億度。</td><td>聯電集團<br>p.109</td></tr>
+          <tr><td><b>近期節能措施</b></td><td>2025 年節電量為 <b>153,781 MWh</b>；報告列出 2026 年節電專案目標 <b>40,000 MWh</b>，內容包括生產機台節能、變頻設備與高效率冰水系統等措施。</td><td>聯電集團<br>p.112</td></tr>
+        </table>
+        <p class="footnote" style="margin-top:10px">來源：聯電《2025 聯華電子永續報告書》第 109–112 頁；PDF 已列於本儀表板檔案清單。</p>
+      </div>
+
+      <div class="card">
+        <h3>台達電：報告書揭露重點（2025）</h3>
+        <p style="font-size:13px;line-height:1.8">報告書完整揭露全球能源使用、再生電力比例與節能績效；未見公司整體 2030／2035 年<b>絕對總用電量</b>的公司預測。台達電的能源資料為全球營運據點範圍，非台灣單一據點。</p>
+        <table class="crit-table">
+          <tr><th style="width:18%">主題</th><th>報告書資訊</th><th style="width:22%">資料範圍／頁次</th></tr>
+          <tr><td><b>2025 能源與電力使用</b></td><td>2025 年全球據點總能源使用量為 <b>1,001,365 MWh</b>；其中電力使用量為 <b>938,236 MWh</b>，占總能源使用量 93.7%。報告說明，能源使用量較前一年增加 12.2%，主要與擴廠、增加產線及產量有關。</td><td>台達全球營運據點<br>p.122</td></tr>
+          <tr><td><b>再生電力現況</b></td><td>2025 年再生電力使用量為 <b>855,027 MWh</b>，占全球電力使用量 <b>91%</b>。來源包括自發自用太陽能、再生電力購電協議（PPA）、綠色電力產品，以及非搭售型再生能源憑證。</td><td>台達全球營運據點<br>p.122、126</td></tr>
+          <tr><td><b>未來綠電承諾</b></td><td>台達承諾全球營運據點於 <b>2030 年達成 100% 使用再生電力（RE100）</b>。此為再生電力占比目標，報告未同時提供 2030 年的公司整體用電量。</td><td>台達全球營運據點<br>p.125–126</td></tr>
+          <tr><td><b>生產能源強度與節能</b></td><td>2025 年整體生產廠區能源強度為 <b>48,505 度／百萬美元產值</b>，較 2020 年降低 <b>29.4%</b>。當年共執行 457 項節能方案，節省 <b>64,931 MWh</b>；2011–2025 年累計節電量為 <b>524,037 MWh</b>。</td><td>整體生產廠區；節能統計為全球營運據點<br>p.123–124</td></tr>
+        </table>
+        <p class="footnote" style="margin-top:10px">來源：台達電《2025 台達永續報告書》第 122–126 頁；PDF 已列於本儀表板檔案清單。</p>
+      </div>
+
     `;
     panesEl.appendChild(sec);
   }
@@ -4252,6 +4351,7 @@ const DATA = {
         </table>
       </div>
       <p class="footnote">範疇一/二/三單位皆為公噸CO2e，為ESG平台申報之集團/全球口徑溫室氣體排放，非台灣專屬數字，僅供參考公司整體排放規模。<b>範疇三(供應鏈上下游)</b>指公司自己不直接排放、但整條價值鏈上下游造成的間接排放，例如：上游——買的原物料/零組件在製造過程中的排放；下游——賣出的產品未來被使用時的排放(如晶片裝進手機後，手機用電產生的排放)；還有員工通勤、商務出差、廢棄物處理等。因為公司自己管不到供應商或消費者怎麼排放，範疇三數字通常最大，但跟公司自身用電量無直接關係，這個任務不需要用到。點「詳細」看資料拆分方式、備註、減量目標與達成進度原文。</p>
+
     `;
     panesEl.appendChild(sec);
 
@@ -4416,24 +4516,28 @@ const DATA = {
     const rangeCount = rows.filter(r => r["是否為RANGE估算"] === "是").length;
     const top10Sum = rows.slice(0, 10).reduce((s, r) => s + Number(r["台灣用電量_kWh"]), 0);
     const top10Pct = ((top10Sum / totalKwh) * 100).toFixed(1);
+    const historicalElectricity = {
+      "2002": { y2023: "25.58", y2024: "25.13", method: "外購非再生電力加再生電力（GJ）×277.7778換算" },
+      "2408": { y2023: "7.66", y2024: "8.01", method: "永續報告書直接揭露的年度電力使用量" },
+    };
 
-    const bodyRows = rows.map((r, i) => {
+    const bodyRows = rows.map(r => {
       const yi = Number(r["台灣用電量_億度"]).toLocaleString("zh-TW", { maximumFractionDigits: 2 });
-      const rangePill = r["是否為RANGE估算"] === "是"
-        ? `<span class="pill na" style="background:color-mix(in oklab, var(--warn) 20%, transparent);color:var(--warn)">RANGE估算</span>`
-        : `<span class="pill ok">單一值</span>`;
       const re = r["台灣RE比例(%)"] && !isNaN(Number(r["台灣RE比例(%)"])) ? Number(r["台灣RE比例(%)"]).toLocaleString("zh-TW", { maximumFractionDigits: 2 }) + "%" : (r["台灣RE比例(%)"] || "—");
+      const history = historicalElectricity[r["公司代號"]];
+      const historicalNote = history
+        ? `2023／2024：${history.method}。2025：${r["資料拆分方式"]}`
+        : `2023／2024：尚未取得相同台灣用電邊界的資料，暫不填列。2025：${r["資料拆分方式"]}`;
       return `<tr>
-        <td class="num">${i + 1}</td>
         <td>${r["公司名稱"]} <span class="badge-src">${r["公司代號"]}</span></td>
-        <td class="num">${r["資料年度"]}</td>
+        <td class="num">${history ? history.y2023 : "—"}</td>
+        <td class="num">${history ? history.y2024 : "—"}</td>
         <td class="num" style="font-weight:700">${yi}</td>
-        <td>${rangePill}</td>
         <td class="num">${re}</td>
         <td>
           <details class="rowdetail">
-            <summary>資料拆分方式與備註</summary>
-            <div class="body"><b>拆分方式：</b>${r["資料拆分方式"]}\n\n<b>備註：</b>${r["備註"]}</div>
+            <summary>資料說明</summary>
+            <div class="body">${historicalNote}\n\n<b>2025備註：</b>${r["備註"]}</div>
           </details>
         </td>
       </tr>`;
@@ -4464,13 +4568,14 @@ const DATA = {
 
       <div class="card">
         <h3>50家最終名單(依台灣用電量排序)</h3>
+        <p style="font-size:13px;color:var(--text-secondary);margin:0 0 12px">各公司以2025年台灣用電量排序。2023、2024年僅在確認為相同公司與台灣用電邊界後填列；尚未取得相同邊界資料者以「—」標示，不以推估值補入。</p>
         <div class="table-scroll">
           <table class="data">
-            <thead><tr><th>排名</th><th>公司</th><th>年度</th><th>台灣用電量(億度)</th><th>估算方式</th><th>台灣RE比例</th><th>說明</th></tr></thead>
+            <thead><tr><th>公司</th><th>2023用電量<br><span class="th-sub">億度</span></th><th>2024用電量<br><span class="th-sub">億度</span></th><th>2025用電量<br><span class="th-sub">億度</span></th><th>台灣RE比例<br><span class="th-sub">2025年度</span></th><th>說明</th></tr></thead>
             <tbody>${bodyRows}</tbody>
           </table>
         </div>
-        <p class="footnote">「單一值」表示公司自行揭露具體用電量或引用明確排碳係數版本；「RANGE估算」表示公司未載明所用排碳係數版本，本專案取兩個現行流通版本(0.466／0.474 kgCO2e/度)之上下界，此處以區間中點呈現。</p>
+        <p class="footnote">2025年若為RANGE估算，係因公司未載明排碳係數版本，本專案以0.466／0.474 kgCO2e/度的上下界中點呈現；各公司2023、2024年的資料取得或估算方式，均列於「說明」。</p>
       </div>
 
       <div class="card">
@@ -4548,11 +4653,12 @@ const DATA = {
 
   // ---------- boot ----------
   renderOverview();
-  renderStep5();
   renderCriteria();
+  renderStep5();
   renderExplorer();
   renderCharts();
   renderFiles();
+  renderMethod3();
 
   let saved = "overview";
   try { saved = localStorage.getItem("wdh-tab") || "overview"; } catch (e) {}
