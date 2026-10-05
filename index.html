@@ -3740,6 +3740,7 @@ const DATA = {
     { id: "charts", label: "分析圖表" },
     { id: "files", label: "檔案清單" },
     { id: "method3", label: "報告書未來用電與綠電揭露資訊" },
+    { id: "scenario", label: "最終討論情境" },
   ];
   const tabsEl = document.getElementById("tabs");
   const panesEl = document.getElementById("panes");
@@ -3791,10 +3792,10 @@ const DATA = {
               </table>
 
               <p class="sec-h">二、2035年綠電承諾加權占比（待完成）</p>
-              <p style="margin:4px 0;font-size:12px">改採下方 3a 的加權占比公式，以公司2025年台灣用電量作為權重，搭配其未來綠電承諾。尚未整理完成前，不公布占比或換算綠電量。</p>
+              <p style="margin:4px 0;font-size:12px">改採下方「公司綠電承諾加權占比」的核心公式，以公司2025年台灣用電量作為權重，搭配其未來綠電承諾。尚未整理完成前，不公布占比或換算綠電量。</p>
               <table class="crit-table">
                 <tr><th>計算方式</th><th>2035綠電占比</th><th>2035綠電量</th><th>狀態</th></tr>
-                <tr><td>2025用電量加權的公司綠電承諾（3a）</td><td>—</td><td>—</td><td>待整理有2025台灣用電量與未來綠電承諾資料的公司</td></tr>
+                <tr><td>2025用電量加權的公司綠電承諾</td><td>—</td><td>—</td><td>待整理有2025台灣用電量與未來綠電承諾資料的公司</td></tr>
               </table>
 
               <p class="sec-h">三、公司綠電承諾加權占比——以2025台灣用電量加權</p>
@@ -3808,6 +3809,23 @@ const DATA = {
                 <tr><td>按用電量加權</td><td><code class="path">R₍2035₎ = Σ(Eᵢ,2025 × rᵢ,2035) ÷ ΣEᵢ,2025</code></td><td>只納入同時有2025台灣用電量與未來綠電承諾資料的公司；缺資料不當作0%。</td></tr>
               </table>
               <p style="margin:6px 0;font-size:12px"><b>白話例子：</b>A公司2025年台灣用電量100度、未來綠電承諾50%；B公司用電量20度、承諾20%。加權後是<b>(100×50%＋20×20%) ÷ (100＋20) = 45%</b>，不是把50%與20%直接平均成35%。這樣用電量大的公司會有較大的影響。</p>
+
+              <p class="sec-h">四、直供／轉供市場需求趨勢（獨立參考）</p>
+              <p style="margin:4px 0;font-size:12.5px">本段以已完成的再生能源<b>直供／轉供交易電量</b>，觀察企業可追蹤的綠電採購市場滲透率。它是實際交易趨勢的代理指標，不是全台所有用戶的綠電使用總量；因此不與上方的公司綠電承諾加權結果相加。</p>
+              <table class="crit-table">
+                <tr><th>年度</th><th>再生能源直供／轉供電量</th><th>全台電力消費量</th><th>可追蹤交易滲透率</th><th>判讀</th></tr>
+                <tr><td>2024</td><td><b>29.99 億度</b></td><td>2,838.5 億度</td><td><b>約 1.06%</b></td><td>台電揭露之年度再生能源轉直供總量；作為市場已完成交易的觀測值。</td></tr>
+                <tr><td>2025</td><td><b>58.50 億度</b></td><td>2,830.1 億度</td><td><b>約 2.07%</b></td><td>較 2024 年增加約 95%；僅表示直供／轉供管道的交易擴張，不代表全台綠電使用比例。</td></tr>
+              </table>
+              <p style="margin:6px 0;font-size:12px"><b>計算式：</b><code class="path">直供／轉供滲透率ₜ = 再生能源直供／轉供電量ₜ ÷ 全台電力消費量ₜ</code>。2025 年為 <code class="path">58.50 ÷ 2,830.1 = 2.07%</code>。</p>
+              <p class="footnote" style="margin:6px 0 0">使用界線：可用於觀察市場趨勢、與公司承諾法交叉比較；不可把 2.07% 稱為全台綠電使用率，也不可在未掌握買方逐筆資料前與50家公司承諾結果相加。自發自用、單獨憑證宣告與其他綠電商品可能未完整涵蓋，且可能與個別公司揭露重疊。資料來源：<a class="link" href="https://service.taipower.com.tw/mag/Sustainability/2024%E5%B9%B4%E6%B0%B8%E7%BA%8C%E5%A0%B1%E5%91%8A%E6%9B%B8_2507.pdf" target="_blank">台電 2024 永續報告書</a>、<a class="link" href="https://service.taipower.com.tw/csr/esg/services/user-communication-and-management" target="_blank">台電 ESG 資料</a>、<a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?menu_id=27046&file_id=17091" target="_blank">114年度全國電力資源供需報告</a>。</p>
+
+              <p class="sub-h">台積電案例：可推算 RE 用電量，不等於可從直轉供總量扣除</p>
+              <table class="crit-table">
+                <tr><th>報告書揭露</th><th>可作的計算</th><th>可否自 58.50 億度扣除？</th></tr>
+                <tr><td>2025 年台灣廠區及采鈺使用再生能源電力 <b>29.8 億度</b>，占同範圍總用電 <b>11.5%</b>。報告書的再生能源使用定義包含自發再生能源、購買再生能源及再生能源憑證。</td><td><code class="path">台灣總用電 ≈ 29.8 ÷ 11.5% = 259.1 億度</code><br>因此可建立「台灣 RE 用電量」資料點：<b>29.8 億度</b>。</td><td><b>不可直接扣除。</b><br>29.8 億度是混合來源，報告書未拆出其中多少度屬直供／轉供；若全數扣除，會把自發自用或憑證也誤當作直轉供。</td></tr>
+              </table>
+              <p style="margin:6px 0;font-size:12px">這類公司應先標為「<b>可推台灣 RE 用電量、但來源混合</b>」。只有報告書另揭露「台灣 2025 年直供／轉供綠電量 X 度」或可分辨的 PPA 實際交付量，才可成為 <code class="path">58.50 − Σ公司直供／轉供量</code> 的扣除項。<a class="link" href="https://esg.tsmc.com/file/public/2025-TSMC-Sustainability-Report-c.pdf" target="_blank">台積電 2025 永續報告書 p.99</a></p>
 
               <p class="sub-h">3a. 公司2035年總用電量推算</p>
               <p style="margin:4px 0;font-size:12.5px">公司2035年總用電量屬於<b>方法3</b>的工作，資料基礎是2023→2025年台灣專屬用電量與公司公開揭露的擴產證據。此項推算不代入目前方法1的綠電承諾加權占比；完成後可作為另一項綠電需求量情境。</p>
@@ -3995,6 +4013,19 @@ const DATA = {
           <li><div class="stxt"><b>5. 彙整2035年公司用電量</b><span>待新算法逐家完成後，才公布公司小計與全國對照結果</span></div></li>
         </ul>
       </div>
+
+      <div class="card" style="margin-top:16px">
+        <h3>三種方法小筆記</h3>
+        <p style="margin:0 0 10px;font-size:12.5px;color:var(--text-secondary)">三種方法從全台、產業到公司三個尺度切入；最後以結果差異辨識不確定性，而非只選出一個「最準」的數字。</p>
+        <div class="table-scroll">
+          <table class="crit-table">
+            <tr><th style="width:16%">方法</th><th style="width:34%">總用電量怎麼算</th><th style="width:34%">綠電怎麼看</th><th style="width:16%">定位</th></tr>
+            <tr><td><b>方法1</b><br>總體趨勢外推</td><td>採經濟部供需報告的全國逐年預測；2035 年為 <b>3,621 億度</b>。</td><td>以具台灣邊界的公司綠電承諾，按其 2025 年台灣用電量加權；另以直供／轉供交易量觀察市場需求趨勢。</td><td>先掌握全台整體趨勢。</td></tr>
+            <tr><td><b>方法2</b><br>部門別驅動因子</td><td>拆成半導體、AIDC、傳統製造、服務業、住宅等部門，以各自的產出、容量或家戶等驅動因素推估後加總。</td><td>各部門預估用電量乘上相應的綠電採用率；大型企業可用承諾資料，其餘以明列假設處理。</td><td>呈現產業結構改變。</td></tr>
+            <tr><td><b>方法3</b><br>用電大戶由下而上</td><td>以 50 家公司的 2023–2025 年台灣用電量為基礎，搭配擴產、產能、投產時程與歷史趨勢，逐家推估後加總。</td><td>逐家公司配對台灣用電量與綠電承諾；只有年度與資料範圍一致者才納入，缺資料不當作零。</td><td>最貼近公司實況；現正依新算法重算。</td></tr>
+          </table>
+        </div>
+      </div>
     `;
     const legacyMethod3Details = [...sec.querySelectorAll("details")].find(d => d.textContent.includes("一、2035年台灣用電量(50家由下而上校準結果)"));
     const method1Details = [...sec.querySelectorAll("details")].find(d => d.textContent.includes("三、公司綠電承諾加權占比"));
@@ -4028,7 +4059,74 @@ const DATA = {
       ["亞泥", "1102", "2030 年發電／轉供 5,000 千度", "電量目標", "缺同邊界總用電量，不換比例"], ["燿華", "2367", "2030 年採購 2,000 萬度", "電量目標", "缺同邊界總用電量，不換比例"], ["超豐", "2441", "2025 年綠電採購與自發自用", "歷史實績", "非未來比例目標"], ["景碩", "3189", "2030 年後採購至少 535 萬度", "非固定年度／比例", "不換比例"], ["台勝科", "3532", "2030 年購買與自設合計 26,000 千度", "電量目標", "缺同邊界總用電量，不換比例"], ["彩晶", "6116", "南京廠 2026 年 65%；2027 年 80%", "單一海外廠", "不代表公司或台灣總用電"], ["頎邦", "6147", "2030 年至少 4,300 萬度", "電量目標", "缺同邊界總用電量，不換比例"],
       ["東聯", "1710", "未找到量化未來承諾", "—", "暫不納入"], ["中碳", "1723", "未找到量化未來承諾", "—", "暫不納入"], ["中鋼", "2002", "有綠電取得規劃，未見未來比例／電量", "—", "暫不納入"], ["中鴻", "2014", "未找到量化未來承諾", "—", "暫不納入"], ["大成鋼", "2027", "未找到量化未來承諾", "—", "暫不納入"], ["華泰", "2329", "未找到量化未來承諾", "—", "暫不納入"], ["旺宏", "2337", "有提升與淨零方向，未見量化點位", "—", "暫不納入"], ["神基", "3005", "未找到量化未來承諾", "—", "暫不納入"], ["健鼎", "3044", "未找到量化未來承諾", "—", "暫不納入"], ["典範", "3372", "未找到量化未來承諾", "—", "暫不納入"], ["TPK-KY", "3673", "未找到量化未來承諾", "—", "暫不納入"], ["定穎投控", "3715", "未找到量化未來承諾", "—", "暫不納入"], ["榮剛", "5009", "有外購綠電與採購規劃，未見量化未來目標", "—", "暫不納入"], ["力積電", "6770", "有綠電專案與採購／光電規劃，未見量化承諾", "—", "暫不納入"], ["南電", "8046", "有2025外購綠電與後續採購規劃，未見量化未來目標", "—", "暫不納入"],
     ];
-    const greenCommitmentRows = greenCommitments.map(([company, code, target, boundary, treatment]) => `<tr><td>${esc(company)} <span class="badge-src">${esc(code)}</span></td><td>${esc(target)}</td><td>${esc(boundary)}</td><td>${esc(treatment)}</td></tr>`).join("");
+    const describeTarget = (target) => {
+      // 供回查 PDF 使用：保留報告書的年度、動詞與目標詞，不把期間目標改寫成單一年份的承諾。
+      const reportWording = {
+        "2035 年 RE30": "報告書短摘：2035 年再生能源使用 RE30。｜回查關鍵字：2035、再生能源、RE30",
+        "2035 年 RE35": "報告書短摘：2035 年再生能源使用 RE35。｜回查關鍵字：2035、再生能源、RE35",
+        "2035 年 RE20": "報告書短摘：2035 年再生能源使用 RE20。｜回查關鍵字：2035、再生能源、RE20",
+        "2030 年 RE20": "報告書短摘：2030 年再生能源使用 RE20。｜回查關鍵字：2030、再生能源、RE20",
+        "2030 年 RE60；2040 年 RE100": "報告書短摘：2030 年 RE60；2040 年 RE100。｜回查關鍵字：RE60、RE100、再生能源、2030、2040",
+        "2028–2034 RE55；2035–2050 RE100": "報告書短摘：中期（2028–2034）集團再生能源使用 RE55；長期（2035–2050）RE100。未揭露各年度達成時點。｜回查關鍵字：中期、長期、集團再生能源使用、RE55、RE100",
+        "台灣 2030 年 50%；2025 年 8.7%": "報告書短摘：台灣據點 2030 年再生能源使用比例 50%；2025 年實績 8.7%。｜回查關鍵字：台灣、2030、再生能源、50%、8.7%",
+        "台灣據點 2030 年 1.5%": "報告書短摘：台灣據點 2030 年再生能源使用比例 1.5%。｜回查關鍵字：台灣據點、2030、再生能源、1.5%",
+        "2030 年導入再生能源 30%": "報告書短摘：2030 年導入再生能源 30%。｜回查關鍵字：2030、導入再生能源、30%",
+        "2030 年發電／轉供 5,000 千度": "報告書短摘：2030 年再生能源發電／轉供量 5,000 千度。｜回查關鍵字：2030、發電、轉供、5,000 千度",
+        "2030 年採購 2,000 萬度": "報告書短摘：2030 年再生能源採購量 2,000 萬度。｜回查關鍵字：2030、綠電採購、2,000 萬度",
+        "2030 年後採購至少 535 萬度": "報告書短摘：2030 年後再生能源採購量至少 535 萬度。｜回查關鍵字：2030、再生能源採購、535 萬度",
+        "2030 年購買與自設合計 26,000 千度": "報告書短摘：2030 年購買與自設再生能源合計 26,000 千度。｜回查關鍵字：2030、購買、自設、26,000 千度",
+        "2030 年至少 4,300 萬度": "報告書短摘：2030 年再生能源使用量至少 4,300 萬度。｜回查關鍵字：2030、再生能源使用量、4,300 萬度",
+        "2025 年綠電採購與自發自用": "報告書短摘：2025 年有綠電採購與自發自用；此為當年實績，非未來目標。｜回查關鍵字：2025、綠電採購、自發自用",
+        "南京廠 2026 年 65%；2027 年 80%": "報告書短摘：南京廠 2026 年再生能源使用 65%，2027 年 80%。｜回查關鍵字：南京廠、2026、2027、再生能源、65%、80%",
+        "未找到量化未來承諾": "檢索結果：未找到量化的未來再生能源比例或電量承諾。｜建議回查關鍵字：再生能源、綠電、RE100、能源轉型、2030、2050",
+        "有綠電取得規劃，未見未來比例／電量": "檢索結果：報告書提及綠電取得規劃，未見量化的未來比例或電量。｜回查關鍵字：綠電、採購、再生能源、能源轉型",
+        "有提升與淨零方向，未見量化點位": "檢索結果：報告書有提升再生能源與淨零方向，未見量化年度目標。｜回查關鍵字：淨零、再生能源、綠電、能源轉型",
+        "有外購綠電與採購規劃，未見量化未來目標": "檢索結果：報告書提及外購綠電與採購規劃，未見量化未來目標。｜回查關鍵字：外購綠電、採購、再生能源",
+        "有綠電專案與採購／光電規劃，未見量化承諾": "檢索結果：報告書提及綠電專案、採購或光電規劃，未見量化承諾。｜回查關鍵字：綠電專案、採購、太陽光電、再生能源",
+      };
+      if (reportWording[target]) return reportWording[target];
+      const fixed = {
+        "2035 年 RE30": "2035 年再生能源／綠電使用比例 RE30（30%）",
+        "2035 年 RE35": "2035 年再生能源／綠電使用比例 RE35（35%）",
+        "2030 年 RE20": "2030 年再生能源／綠電使用比例 RE20（20%）",
+        "2030 年 RE60；2040 年 RE100": "2030 年再生能源／綠電使用比例 RE60（60%）；2040 年 RE100（100%）",
+        "2028–2034 RE55；2035–2050 RE100": "2028–2034 年再生能源／綠電使用比例 RE55（55%）；2035–2050 年 RE100（100%）",
+        "台灣 2030 年 50%；2025 年 8.7%": "台灣據點：2030 年再生能源／綠電使用比例 50%；2025 年實績 8.7%",
+        "台灣據點 2030 年 1.5%": "台灣據點：2030 年再生能源／綠電使用比例 1.5%",
+        "2030 年導入再生能源 30%": "2030 年導入再生能源比例 30%",
+        "2030 年發電／轉供 5,000 千度": "2030 年再生能源發電／轉供量 5,000 千度",
+        "2030 年採購 2,000 萬度": "2030 年再生能源採購量 2,000 萬度",
+        "2030 年後採購至少 535 萬度": "2030 年後再生能源採購量至少 535 萬度",
+        "2030 年購買與自設合計 26,000 千度": "2030 年購買與自設再生能源合計 26,000 千度",
+        "2030 年至少 4,300 萬度": "2030 年再生能源使用量至少 4,300 萬度",
+      };
+      if (fixed[target]) return `報告書短摘：${fixed[target]}。｜回查關鍵字：再生能源、綠電、${target.match(/20\d\d/g)?.join("、") || "目標"}`;
+      let match = target.match(/^2035 年 (\d+(?:\.\d+)?%)$/);
+      if (match) return `報告書短摘：2035 年再生能源／綠電使用比例 ${match[1]}。｜回查關鍵字：2035、再生能源、綠電、${match[1]}`;
+      match = target.match(/^2030 年至少 (\d+(?:\.\d+)?%)$/);
+      if (match) return `報告書短摘：2030 年再生能源／綠電使用比例至少 ${match[1]}。｜回查關鍵字：2030、再生能源、綠電、${match[1]}`;
+      match = target.match(/^2030 年 (\d+(?:\.\d+)?%)$/);
+      if (match) return `報告書短摘：2030 年再生能源／綠電使用比例 ${match[1]}。｜回查關鍵字：2030、再生能源、綠電、${match[1]}`;
+      return target;
+    };
+    const describeTreatment = (treatment, boundary) => {
+      if (treatment === "有2035比例；先保留公司個案") return `已揭露2035比例，但資料範圍是「${boundary}」。先作為公司個案資訊，確認能否對應台灣用電量後才納入加權。`;
+      if (treatment === "有2035比例；需比對台灣邊界") return `已揭露2035比例，但範圍為「${boundary}」。需確認是否與本儀表板的台灣用電量是同一範圍。`;
+      if (treatment === "有2035比例；不直接納入台灣加權") return `已揭露2035比例，但範圍為「${boundary}」，與台灣用電量分母不同；保留比較，不直接乘入台灣用電量。`;
+      if (treatment === "2030資料點；不自動推2035") return "報告書只寫到2030年，沒有2035比例；保留為2030資料點，日後若換算2035必須另列假設。";
+      if (treatment === "台灣2030資料點；2035仍需假設") return "資料範圍已明確為台灣，但報告書只提供2030比例；可作台灣資料點，若要推2035仍需另列假設。";
+      if (treatment === "期間目標；不指定單一年份") return "目標以多年期間表示，並非2035年的單一比例；保留原文，不自行指定2035數字。";
+      if (treatment === "不代表公司總用電") return `目標只適用於「${boundary}」，不是全公司所有用電；不可當成公司整體綠電比例。`;
+      if (treatment === "保留區間；不取單一值") return "報告書提供的是目標範圍；保留上下限，不任意選取單一比例。";
+      if (treatment === "先確認認列工具後使用") return "需先確認報告書所稱工具是否為再生電力使用，而非碳權或其他環境工具，確認後才判斷能否採用。";
+      if (treatment === "非台灣專屬") return `資料範圍為「${boundary}」，並非台灣專屬；保留公司比較，不直接納入台灣加權。`;
+      if (treatment === "缺同邊界總用電量，不換比例") return "報告書提供的是再生能源電量，未提供相同範圍的總用電量；不能換算成綠電比例。";
+      if (treatment === "非未來比例目標") return "這是2025年實績，不是未來年度的比例承諾；可作現況參考，不能當2035目標。";
+      if (treatment === "不換比例") return "目標不是固定年度的比例，無法換成公司綠電占比。";
+      if (treatment === "不代表公司或台灣總用電") return "目標僅適用於單一海外廠，不能代表全公司或台灣總用電。";
+      return "報告書未找到可直接使用的量化未來綠電比例或電量；暫時不納入加權計算，也不視為0%。";
+    };
+    const greenCommitmentRows = greenCommitments.map(([company, code, target, boundary, treatment]) => `<tr><td>${esc(company)} <span class="badge-src">${esc(code)}</span></td><td>${esc(describeTarget(target))}</td><td>${esc(boundary)}</td><td>${esc(describeTreatment(treatment, boundary))}</td></tr>`).join("");
     sec.innerHTML = `
       <h2 class="pane-title">報告書未來用電與綠電揭露資訊</h2>
       <p class="pane-desc">整理公司 2025 年永續報告書中已揭露的未來用電、再生能源與節能資訊；其中公司未來用電線索可供方法3後續推算使用。每筆均標示資料範圍與頁次，避免將全球／集團資料誤讀為台灣公司本體。</p>
@@ -4040,14 +4138,15 @@ const DATA = {
 
       <div class="card">
         <h3>最終50家：未來綠電／再生能源承諾總覽</h3>
-        <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">50家公司2025年永續報告書的未來綠電資訊已整理完成。這是資料盤點表，不是2035推算結果：有明確2035比例者7家、有2030或其他前期資料點者21家、僅有電量或單一廠資訊者7家、未找到量化未來承諾者15家。</p>
+        <p style="font-size:13px;color:var(--text-secondary);margin:0 0 10px">50家公司2025年永續報告書的未來綠電資訊已整理完成。這是資料盤點表，不是2035推算結果：有明確2035比例者7家、有2030或其他前期資料點者21家、僅有電量或單一廠資訊者7家、未找到量化未來承諾者15家。各列以報告書的年度、目標與行動詞作短摘，並附 PDF 回查關鍵字；短摘不是逐字長引文，仍應回到原報告書核對完整上下文。</p>
         <p class="footnote" style="margin:0 0 10px">目前可直接作為台灣資料點的是華邦電與新唐的2030比例；其餘資料先保留原始邊界與年度，不自動外推成2035值，也不把缺資料視為0%。</p>
         <div class="table-scroll">
           <table class="data">
-            <thead><tr><th>公司</th><th>報告書揭露的未來承諾／資訊</th><th>資料範圍</th><th>目前處理方式</th></tr></thead>
+            <thead><tr><th>公司</th><th>報告書短摘／PDF 回查關鍵字</th><th>資料範圍</th><th>目前處理方式</th></tr></thead>
             <tbody>${greenCommitmentRows}</tbody>
           </table>
         </div>
+        <details class="rowdetail" style="margin-top:12px"><summary>如何閱讀「處理方式」？</summary><div class="body" style="max-width:none;white-space:normal"><table class="crit-table"><tr><th>情況</th><th>白話意思</th></tr><tr><td>有2035比例，但需比對台灣邊界</td><td>公司已有2035承諾，但先確認它是否只涵蓋台灣，才能拿來搭配台灣用電量。</td></tr><tr><td>2030資料點，不自動推2035</td><td>2030目標不是2035目標；若未來要換算，會另外說明採用何種假設。</td></tr><tr><td>不代表公司總用電</td><td>目標只涵蓋特定廠區、機房或設備，不能視為全公司綠電比例。</td></tr><tr><td>缺同邊界總用電量</td><td>只有綠電「度數」而沒有同一範圍的總用電量，故不能除成比例。</td></tr><tr><td>暫不納入</td><td>尚未找到量化目標，或資料範圍不相符；這不是0%承諾。</td></tr></table><p class="footnote" style="margin:8px 0 0">百分比均指報告書承諾範圍內的用電比例；「度／千度／萬度」則是再生能源電量，不等於比例。</p></div></details>
       </div>
 
       <div class="card">
@@ -4313,6 +4412,210 @@ const DATA = {
 
     `;
     panesEl.appendChild(sec);
+  }
+
+  // ---------- Pane: Final discussion scenarios ----------
+  function renderScenario() {
+    const sec = document.createElement("section");
+    sec.className = "pane";
+    sec.id = "pane-scenario";
+    sec.innerHTML = `
+      <h2 class="pane-title">最終討論情境</h2>
+      <p class="pane-desc">本頁整合半導體情境、台積電綠電路徑與用電大戶承諾，作為討論用試算。點選各情境標題可展開或收合完整前提、算式與結果。</p>
+
+      <details class="card" open style="border-left:3px solid var(--accent)">
+        <summary style="cursor:pointer;font-size:16px;font-weight:700">情境一：半導體溫和成長 × 台積電 RE80 × 大用戶群覆蓋率雙情境</summary>
+        <div style="padding-top:10px">
+        <p style="margin:0 0 10px;font-size:12.5px;color:var(--text-secondary)">目的：先以可追溯的假設估算「台積電＋其他大用戶群」在 2035 年可代表的綠電需求量。此結果是部分需求端情境，<b>不是</b>全台 2035 年再生能源供給預測。</p>
+
+        <p class="sec-h">一、計算前提與來源</p>
+        <table class="crit-table">
+          <tr><th>前提</th><th>採用值</th><th>來源／處理方式</th></tr>
+          <tr><td>全台 2035 總用電量</td><td><b>3,621 億度</b></td><td>經濟部供需報告的官方逐年預測值。<a class="link" href="https://www.moeaea.gov.tw/ECW/populace/content/wHandMenuFile.ashx?menu_id=27046&file_id=17091" target="_blank">來源</a></td></tr>
+          <tr><td>半導體 2035 用電量</td><td><b>823 億度</b></td><td>依使用者提供之情境一表：2030 年 624 億度，延續 2025–2030 年 CAGR 5.70% 外推五年。<br><code class="path">624 × (1.057)⁵ = 823.0</code>。原圖未附原始出處，故列為本研究情境假設。</td></tr>
+          <tr><td>台積電占半導體用電</td><td><b>54.8%</b></td><td>以公開資料交叉校準：台積電 2025 台灣廠區及采鈺用電約 259.13 億度；以情境圖的半導體 2025 年 473 億度對照，為 54.8%。此為本研究的同年度對照值，非官方公布的半導體用電市占率。<a class="link" href="https://esg.tsmc.com/file/public/2025-TSMC-Sustainability-Report-c.pdf" target="_blank">台積電報告書</a></td></tr>
+          <tr><td>台積電 2035 綠電比例</td><td><b>80%</b></td><td>以公司 RE60（2030）及 RE100（2040）做線性內插：<br><code class="path">60% + (2035−2030) ÷ 10 × (100%−60%) = 80%</code>。套用於台灣用電為本研究假設，非公司直接揭露的台灣 2035 目標。</td></tr>
+          <tr><td>大用戶群覆蓋率・情境 A</td><td><b>56.81%</b></td><td>使用者提供的「102～114 年用電量」歷史表中，114 年「大用戶占全國總用電量比例」合計值。</td></tr>
+          <tr><td>大用戶群覆蓋率・情境 B</td><td><b>49%</b></td><td>綠色公民行動聯盟引述經濟部初估：契約容量 5,000 kW 以上、約 500 家用戶的用電量約占全國 49%。<a class="link" href="https://gcaa.org.tw/16668/" target="_blank">來源</a></td></tr>
+          <tr><td>除台積電後其他大戶的綠電比例</td><td><b>48.99%</b></td><td>7 家有明確 2035 綠電比例的公司（不含台積電）以 2025 台灣用電量加權；完整公司、權重與算式見本頁下方「共用計算基礎」。</td></tr>
+        </table>
+
+        <p class="sec-h">二、算式</p>
+        <p style="font-size:12.5px;color:var(--text-secondary);margin:0 0 7px">共同公式：<span style="color:#2563a9;font-weight:700">用電量</span> <code class="path">= 3,621 × 覆蓋率</code>；<span style="color:#17803d;font-weight:700">綠電量</span> <code class="path">= (大用戶群用電量 − 451.00) × 48.99% + 360.80</code>。</p>
+        <table class="crit-table">
+          <tr><th>步驟</th><th>情境 A：56.81%</th><th>情境 B：49%</th></tr>
+          <tr><td><span style="color:#2563a9;font-weight:700">台積電 2035 用電量</span></td><td colspan="2"><code class="path">823 × 54.8%</code> ＝ <b style="color:#2563a9">451.00 億度</b></td></tr>
+          <tr><td><span style="color:#17803d;font-weight:700">台積電 2035 綠電量</span></td><td colspan="2"><code class="path">451.00 × 80%</code> ＝ <b style="color:#17803d">360.80 億度</b></td></tr>
+          <tr><td><span style="color:#2563a9;font-weight:700">大用戶群 2035 用電量</span></td><td><code class="path">3,621 × 56.81%</code><br><b style="color:#2563a9">2,057.09 億度</b></td><td><code class="path">3,621 × 49%</code><br><b style="color:#2563a9">1,774.29 億度</b></td></tr>
+          <tr><td><span style="color:#2563a9;font-weight:700">扣台積電後其他大戶用電量</span></td><td><code class="path">2,057.09 − 451.00</code><br><b style="color:#2563a9">1,606.09 億度</b></td><td><code class="path">1,774.29 − 451.00</code><br><b style="color:#2563a9">1,323.29 億度</b></td></tr>
+          <tr><td><span style="color:#17803d;font-weight:700">其他大戶綠電量</span></td><td><code class="path">1,606.09 × 48.99%</code><br><b style="color:#17803d">786.82 億度</b></td><td><code class="path">1,323.29 × 48.99%</code><br><b style="color:#17803d">648.28 億度</b></td></tr>
+        </table>
+
+        <p class="sec-h">三、結果彙整</p>
+        <div class="kpi-grid" style="margin:8px 0 12px">
+          <div class="kpi"><div class="val">1,147.62</div><div class="lbl">情境 A 綠電量（億度）</div><div class="note">56.81% 大用戶群覆蓋率；約占全台 31.69%</div></div>
+          <div class="kpi"><div class="val">1,009.08</div><div class="lbl">情境 B 綠電量（億度）</div><div class="note">49% 大用戶群覆蓋率；約占全台 27.87%</div></div>
+          <div class="kpi"><div class="val">138.54</div><div class="lbl">兩情境差距（億度）</div><div class="note">僅反映大用戶群覆蓋率的不同</div></div>
+        </div>
+        <p class="footnote" style="margin:0">解讀界線：兩個結果都代表「台積電＋其他大用戶群」的需求端試算，未納入住商、其他企業及未被大用戶定義涵蓋的用電者；不可與供給端再生能源量直接相加。50 家名單只用於取得 48.99% 的公司承諾代理值，並未被當成全台用電覆蓋率。</p>
+        </div>
+      </details>
+
+      <details class="card" style="border-left:3px solid #a45a12">
+        <summary style="cursor:pointer;font-size:16px;font-weight:700">情境二：全台用電年增 3.5% × 半導體高成長 × 台積電 RE80</summary>
+        <div style="padding-top:10px">
+          <p style="margin:0 0 10px;font-size:12.5px;color:var(--text-secondary)">目的：以較高的全台用電與半導體成長率進行壓力測試；同樣分為兩個大用戶群覆蓋率版本。此結果是需求端試算，<b>不是</b>官方供需預測。</p>
+
+          <p class="sec-h">一、計算前提與來源</p>
+          <table class="crit-table">
+            <tr><th>前提</th><th>採用值</th><th>來源／處理方式</th></tr>
+            <tr><td><span style="color:#2563a9;font-weight:700">全台 2035 總用電量</span></td><td><b style="color:#2563a9">3,992.14 億度</b></td><td><code class="path">2,830.1 × (1.035)¹⁰</code>。3.5% 是高成長壓力測試值，不是台灣官方預測。IEA 最新《Electricity 2026》官方表述為「<b>全球電力需求的年均成長率將超過 3.5%</b>」；其 2026–2030 年精確預測值為年均 <b>3.6%</b>，成長動能來自產業、電動化、空調與資料中心。本研究取略低的 3.5% 作為全球高成長背景下的台灣情境值。台灣官方基準為 2.5%，且已表示會往高於 2.5% 的安全值調整。<a class="link" href="https://www.iea.org/reports/electricity-2026/executive-summary" target="_blank">IEA 3.6%</a>　<a class="link" href="https://www.moea.gov.tw/MNS/Populace/news/News.aspx?kind=1&menu_id=40&news_id=123066" target="_blank">官方 2.5%</a>　<a class="link" href="https://www.cna.com.tw/news/afe/202608270196.aspx" target="_blank">上修方向</a></td></tr>
+            <tr><td><span style="color:#2563a9;font-weight:700">半導體 2035 用電量</span></td><td><b style="color:#2563a9">1,947.75 億度</b></td><td>依使用者提供的情境三表：2030 年 960 億度，延續 2025–2030 年 CAGR 15.2% 外推五年。<br><code class="path">960 × (1.152)⁵ = 1,947.75</code>；簡報時可取整為 1,948 億度。</td></tr>
+            <tr><td>台積電占半導體用電</td><td><b>54.8%</b></td><td>沿用情境一的公開資料交叉校準值。</td></tr>
+            <tr><td>台積電 2035 綠電比例</td><td><b>80%</b></td><td>沿用 RE60（2030）至 RE100（2040）的線性內插假設。</td></tr>
+            <tr><td>大用戶群覆蓋率・情境 C</td><td><b>56.81%</b></td><td>使用者提供的「102～114 年用電量」歷史表中，114 年「大用戶占全國總用電量比例」合計值。</td></tr>
+            <tr><td>大用戶群覆蓋率・情境 D</td><td><b>49%</b></td><td>綠色公民行動聯盟引述經濟部初估：契約容量 5,000 kW 以上、約 500 家用戶的用電量約占全國 49%。<a class="link" href="https://gcaa.org.tw/16668/" target="_blank">來源</a></td></tr>
+            <tr><td>除台積電後其他大戶綠電比例</td><td><b>48.99%</b></td><td>沿用情境一：7 家有明確 2035 綠電比例的公司（不含台積電）按 2025 台灣用電量加權；完整公司、權重與算式見本頁下方「共用計算基礎」。</td></tr>
+          </table>
+
+          <p class="sec-h">二、算式</p>
+          <p style="font-size:12.5px;color:var(--text-secondary);margin:0 0 7px">共同公式：<span style="color:#2563a9;font-weight:700">用電量</span> <code class="path">= 3,992.14 × 覆蓋率</code>；<span style="color:#17803d;font-weight:700">綠電量</span> <code class="path">= (大用戶群用電量 − 1,067.37) × 48.99% + 853.89</code>。</p>
+          <table class="crit-table">
+            <tr><th>步驟</th><th>情境 C：56.81%</th><th>情境 D：49%</th></tr>
+            <tr><td><span style="color:#2563a9;font-weight:700">台積電 2035 用電量</span></td><td colspan="2"><code class="path">1,947.75 × 54.8%</code> ＝ <b style="color:#2563a9">1,067.37 億度</b></td></tr>
+            <tr><td><span style="color:#17803d;font-weight:700">台積電 2035 綠電量</span></td><td colspan="2"><code class="path">1,067.37 × 80%</code> ＝ <b style="color:#17803d">853.89 億度</b></td></tr>
+            <tr><td><span style="color:#2563a9;font-weight:700">大用戶群 2035 用電量</span></td><td><code class="path">3,992.14 × 56.81%</code><br><b style="color:#2563a9">2,267.93 億度</b></td><td><code class="path">3,992.14 × 49%</code><br><b style="color:#2563a9">1,956.15 億度</b></td></tr>
+            <tr><td><span style="color:#2563a9;font-weight:700">扣台積電後其他大戶用電量</span></td><td><code class="path">2,267.93 − 1,067.37</code><br><b style="color:#2563a9">1,200.56 億度</b></td><td><code class="path">1,956.15 − 1,067.37</code><br><b style="color:#2563a9">888.78 億度</b></td></tr>
+            <tr><td><span style="color:#17803d;font-weight:700">其他大戶綠電量</span></td><td><code class="path">1,200.56 × 48.99%</code><br><b style="color:#17803d">588.16 億度</b></td><td><code class="path">888.78 × 48.99%</code><br><b style="color:#17803d">435.41 億度</b></td></tr>
+          </table>
+
+          <p class="sec-h">三、結果彙整</p>
+          <div class="kpi-grid" style="margin:8px 0 12px">
+            <div class="kpi"><div class="val">1,442.05</div><div class="lbl">情境 C 綠電量（億度）</div><div class="note">56.81% 大用戶群覆蓋率；約占全台 36.12%</div></div>
+            <div class="kpi"><div class="val">1,289.31</div><div class="lbl">情境 D 綠電量（億度）</div><div class="note">49% 大用戶群覆蓋率；約占全台 32.30%</div></div>
+            <div class="kpi"><div class="val">152.74</div><div class="lbl">C、D 情境差距（億度）</div><div class="note">僅反映大用戶群覆蓋率的不同</div></div>
+          </div>
+          <p class="footnote" style="margin:0">解讀界線：情境二是以 3.5% 全台成長與 15.2% 半導體成長做的高成長壓力測試；它不代表官方核定用電量。50 家名單只用於取得 48.99% 的公司承諾代理值。</p>
+        </div>
+      </details>
+
+      <div class="card" style="border-left:3px solid #17803d">
+        <h3>共用計算基礎：48.99% 的公司綠電承諾加權過程</h3>
+        <p style="margin:0 0 8px;font-size:12.5px;color:var(--text-secondary)">情境一、二皆使用這個比例，僅納入同時有「2025 年台灣用電量」與「明確 2035 年綠電比例」的 7 家公司；不含台積電，避免在情境總式中重複計入。</p>
+        <table class="crit-table">
+          <tr><th>公司</th><th><span style="color:#2563a9">2025 台灣用電量<br>（億度）</span></th><th><span style="color:#17803d">2035 綠電承諾</span></th><th><span style="color:#17803d">加權綠電量<br>（億度）</span></th></tr>
+          <tr><td>東和鋼鐵</td><td style="color:#2563a9">11.43</td><td style="color:#17803d">30%</td><td style="color:#17803d">3.43</td></tr>
+          <tr><td>京元電子</td><td style="color:#2563a9">8.62</td><td style="color:#17803d">50%</td><td style="color:#17803d">4.31</td></tr>
+          <tr><td>台灣大</td><td style="color:#2563a9">6.07</td><td style="color:#17803d">60%</td><td style="color:#17803d">3.64</td></tr>
+          <tr><td>遠傳</td><td style="color:#2563a9">6.26</td><td style="color:#17803d">60%</td><td style="color:#17803d">3.76</td></tr>
+          <tr><td>世界先進</td><td style="color:#2563a9">10.19</td><td style="color:#17803d">55%</td><td style="color:#17803d">5.60</td></tr>
+          <tr><td>中美晶</td><td style="color:#2563a9">0.45</td><td style="color:#17803d">35%</td><td style="color:#17803d">0.16</td></tr>
+          <tr><td>環球晶圓</td><td style="color:#2563a9">2.93</td><td style="color:#17803d">55%</td><td style="color:#17803d">1.61</td></tr>
+          <tr><td><b>合計</b></td><td style="color:#2563a9"><b>45.95</b></td><td>—</td><td style="color:#17803d"><b>22.51</b></td></tr>
+        </table>
+        <p style="margin:8px 0 0"><span style="color:#17803d;font-weight:700">加權綠電比例</span> <code class="path">= Σ（2025 台灣用電量 × 2035 綠電承諾）÷ Σ2025 台灣用電量 = 22.51 ÷ 45.95 = 48.99%</code>。</p>
+        <p class="footnote" style="margin:6px 0 0">藍色為用電權重，綠色為綠電承諾與加權結果。公司承諾的適用邊界與報告書原文，請回查「報告書未來用電與綠電揭露資訊」頁。</p>
+      </div>
+
+      <div class="card">
+        <h3>半導體業用電量情境趨勢</h3>
+        <p style="margin:0 0 8px;font-size:12.5px;color:var(--text-secondary)">2025–2030 為使用者提供的半導體情境表；2035 分別延續情境一 5.7% 與情境二 15.2% 年成長率推得。</p>
+        <div id="scenario-semi-chart" aria-label="半導體業用電量情境趨勢圖"></div>
+      </div>
+
+      <div class="card">
+        <h3>全台用電量與 2035 綠電情境</h3>
+        <p style="margin:0 0 8px;font-size:12.5px;color:var(--text-secondary)">2018–2025 為歷年實績；2026 起依各情境年成長率延伸。線端下方的綠色數字為 2035 年綠電量，分別呈現兩個大用戶群覆蓋率版本。</p>
+        <div id="scenario-tw-chart" aria-label="全台用電量與2035綠電情境趨勢圖"></div>
+      </div>
+
+      <div class="card">
+        <h3>2018–2035 全國電力資源供需報告：歷年用電量預測趨勢</h3>
+        <p style="margin:0 0 8px;font-size:12.5px;color:var(--text-secondary)">黑線為歷年實績；彩色虛線為各年度供需報告當時的預測軌跡。此圖用於比較各版報告的預測方向；舊版逐年數值係依使用者提供參考圖重繪，正式引用時仍應回查各年度報告原表。</p>
+        <div id="scenario-report-chart" aria-label="2018至2035年全國電力資源供需報告歷年用電量預測趨勢圖"></div>
+      </div>
+    `;
+    panesEl.appendChild(sec);
+    drawScenarioCharts();
+  }
+
+  function drawScenarioCharts() {
+    const drawLineChart = (targetId, cfg) => {
+      const target = document.getElementById(targetId);
+      if (!target) return;
+      const W = 1120, H = cfg.notes ? 470 : (cfg.rotateTicks ? 430 : 370);
+      const legendRows = Math.ceil(cfg.series.length / 3);
+      const m = { l: 92, r: 195, t: Math.max(62, 18 + legendRows * 22), b: cfg.notes ? 122 : (cfg.rotateTicks ? 108 : 68) };
+      const innerW = W - m.l - m.r, innerH = H - m.t - m.b;
+      const vals = cfg.series.flatMap(s => s.values.filter(Number.isFinite));
+      const yMax = Math.ceil(Math.max(...vals) / cfg.step) * cfg.step;
+      const yMin = Math.floor(Math.min(...vals) / cfg.step) * cfg.step;
+      const x = i => m.l + (innerW * i / (cfg.years.length - 1));
+      const y = v => m.t + (yMax - v) / (yMax - yMin) * innerH;
+      const grid = [];
+      for (let v = yMin; v <= yMax; v += cfg.step) {
+        const yy = y(v);
+        grid.push(`<line x1="${m.l}" x2="${W - m.r}" y1="${yy}" y2="${yy}" stroke="var(--gridline)" stroke-width="1"/>`);
+        grid.push(`<text x="${m.l - 10}" y="${yy + 4}" text-anchor="end" fill="var(--text-secondary)" font-size="11">${v.toLocaleString("zh-TW")}</text>`);
+      }
+      const xTicks = cfg.years.map((yr, i) => {
+        const tx = x(i), ty = m.t + innerH + 20;
+        const label = cfg.rotateTicks ? `<text x="${tx}" y="${ty}" transform="rotate(-42 ${tx} ${ty})" text-anchor="end" fill="var(--text-secondary)" font-size="11">${yr}</text>` : `<text x="${tx}" y="${ty}" text-anchor="middle" fill="var(--text-secondary)" font-size="11">${yr}</text>`;
+        return `<g><line x1="${tx}" x2="${tx}" y1="${m.t}" y2="${m.t + innerH}" stroke="var(--gridline)" stroke-width="1"/>${label}</g>`;
+      }).join("");
+      const seriesSvg = cfg.series.map(s => {
+        const entries = s.values.map((v, i) => ({ v, i })).filter(d => Number.isFinite(d.v));
+        const pts = entries.map(d => `${x(d.i)},${y(d.v)}`).join(" ");
+        const marks = entries.map(d => `<circle cx="${x(d.i)}" cy="${y(d.v)}" r="4" fill="var(--card)" stroke="${s.color}" stroke-width="2"><title>${s.name}｜${cfg.years[d.i]}：${d.v.toLocaleString("zh-TW", { maximumFractionDigits: 2 })} 億度</title></circle>`).join("");
+        const valueLabels = (s.valueLabelIndices || []).filter(i => Number.isFinite(s.values[i])).map(i => `<text x="${x(i)}" y="${y(s.values[i]) + (s.valueLabelOffset || -10)}" text-anchor="middle" fill="${s.color}" font-size="10" font-weight="700">${Math.round(s.values[i]).toLocaleString("zh-TW")}</text>`).join("");
+        const last = entries[entries.length - 1];
+        const endLabel = s.endLabel === false ? "" : `<text x="${x(last.i) + 9}" y="${y(last.v) + (s.labelOffset || 4)}" fill="${s.color}" font-size="12" font-weight="700">${s.name} ${Math.round(last.v).toLocaleString("zh-TW")}</text>`;
+        return `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"${s.dash ? ` stroke-dasharray="${s.dash}"` : ""}/>${marks}${valueLabels}${endLabel}`;
+      }).join("");
+      const legend = cfg.series.map((s, i) => `<g transform="translate(${m.l + (i % 3) * 230},${18 + Math.floor(i / 3) * 18})"><line x1="0" x2="20" y1="0" y2="0" stroke="${s.color}" stroke-width="3"${s.dash ? ` stroke-dasharray="${s.dash}"` : ""}/><circle cx="10" cy="0" r="3" fill="var(--card)" stroke="${s.color}" stroke-width="2"/><text x="27" y="4" fill="var(--text-primary)" font-size="12">${s.name}</text></g>`).join("");
+      const notes = (cfg.notes || []).map((n, i) => `<text x="${m.l + i * 370}" y="${H - 31}" fill="var(--accent-3)" font-size="12" font-weight="700">${n}</text>`).join("");
+      target.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${cfg.aria}" style="display:block;width:100%;max-width:${cfg.maxWidth || "100%"};height:auto;min-height:250px;margin:0 auto"><rect x="${m.l}" y="${m.t}" width="${innerW}" height="${innerH}" fill="none" stroke="var(--gridline)"/>${grid.join("")}${xTicks}${seriesSvg}${legend}<text x="${m.l + innerW / 2}" y="${H - (cfg.notes ? 76 : 20)}" text-anchor="middle" fill="var(--text-secondary)" font-size="12">年度</text><text transform="translate(22 ${m.t + innerH / 2}) rotate(-90)" text-anchor="middle" fill="var(--text-secondary)" font-size="12">用電量（億度）</text>${notes}</svg>`;
+    };
+
+    drawLineChart("scenario-semi-chart", {
+      aria: "半導體業用電量：情境一與情境二自2025年至2035年的趨勢",
+      years: [2025, 2026, 2027, 2028, 2029, 2030, 2035], step: 250, maxWidth: "88%",
+      series: [
+        { name: "情境一（年增5.7%）", values: [473, 499, 530, 563, 598, 624, 823], color: "var(--accent)", labelOffset: 4, valueLabelIndices: [0,1,2,3,4,5,6], valueLabelOffset: -10, endLabel: false },
+        { name: "情境二（年增15.2%）", values: [473, 534, 606, 692, 793, 960, 1947.75], color: "var(--warn)", labelOffset: -8, valueLabelIndices: [1,2,3,4,5,6], valueLabelOffset: 16, endLabel: false }
+      ]
+    });
+
+    const base = 2830.1;
+    const officialEnd = 3621;
+    const officialRate = Math.pow(officialEnd / base, 1 / 10) - 1;
+    const years = Array.from({ length: 18 }, (_, i) => 2018 + i);
+    const actual = [2666.2, 2778.4, 2819.7, 2833.1, 2795.1, 2756.3, 2838.6, 2830.1, null, null, null, null, null, null, null, null, null, null];
+    const scenarioOne = years.map((yr, i) => yr < 2025 ? null : base * Math.pow(1 + officialRate, i - 7));
+    const scenarioTwo = years.map((yr, i) => yr < 2025 ? null : base * Math.pow(1.035, i - 7));
+    drawLineChart("scenario-tw-chart", {
+      aria: "全台用電量：情境一與情境二自2025年至2035年的趨勢，並於2035標示綠電量",
+      years, step: 250, rotateTicks: true,
+      series: [
+        { name: "歷年實績", values: actual, color: "var(--text-primary)", labelOffset: 4, valueLabelIndices: [0,2,4,6], valueLabelOffset: -10, endLabel: false },
+        { name: "情境一（年增2.5%）", values: scenarioOne, color: "var(--accent)", dash: "6 4", labelOffset: 4, valueLabelIndices: [7,12,17], valueLabelOffset: -10, endLabel: false },
+        { name: "情境二（年增3.5%）", values: scenarioTwo, color: "var(--warn)", dash: "6 4", labelOffset: -8, valueLabelIndices: [10,17], valueLabelOffset: 16, endLabel: false }
+      ],
+      notes: ["2035 綠電｜情境一：1,009–1,148 億度（B–A）", "2035 綠電｜情境二：1,289–1,442 億度（D–C）"]
+    });
+
+    const nulls = n => Array(n).fill(null);
+    const historicYears = years;
+    drawLineChart("scenario-report-chart", {
+      aria: "歷年全國電力資源供需報告的用電量預測趨勢",
+      years: historicYears, step: 250, rotateTicks: true,
+      series: [
+        { name: "歷年實績", values: actual, color: "var(--text-primary)", labelOffset: 4, valueLabelIndices: [0,2,4,6], valueLabelOffset: -10, endLabel: false },
+        { name: "112 年報告", values: nulls(5).concat([2757,2829,2869,2934,3026,3121,3227,3343,3443,3541,3641]).concat(nulls(2)), color: "var(--accent-2)", dash: "5 4", labelOffset: -4, valueLabelIndices: [15], valueLabelOffset: -10, endLabel: false },
+        { name: "113 年報告", values: nulls(6).concat([2838,2849,2890,2929,2970,3020,3072,3135,3203,3286,3372]).concat(nulls(1)), color: "var(--accent-3)", dash: "5 4", labelOffset: -4, valueLabelIndices: [16], valueLabelOffset: 16, endLabel: false },
+        { name: "114 年報告", values: nulls(7).concat([2830.1,2900,2972,3045,3120,3197,3276,3357,3440,3525,3621]), color: "var(--accent)", dash: "5 4", labelOffset: 12, valueLabelIndices: [17], valueLabelOffset: -10, endLabel: false }
+      ]
+    });
   }
 
   // ---------- Pane: Explorer ----------
@@ -4659,6 +4962,7 @@ const DATA = {
   renderCharts();
   renderFiles();
   renderMethod3();
+  renderScenario();
 
   let saved = "overview";
   try { saved = localStorage.getItem("wdh-tab") || "overview"; } catch (e) {}
